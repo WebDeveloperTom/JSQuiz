@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>JavaScript Quiz</title>
+  </head>
+  <body>
+    <div class="quiz-start">
+      <button type="button" name="button" onclick="startQuiz()">Start Quiz!</button>
+    </div>
+
+    <div id="quiz-container" style="display:none;">
+      <p class="question"></p>
+      <form action="" id="answerList"></form>
+      <button type="button" id="submit" name="button" onclick="checkAnswer()">Submit</button>
+      <div class="userScore">
+        <p>Score:
+          <span id="score"></span></p>
+      </div>
+    </div>
+    <div id="results" style="display:none"></div>
+    <script src="script.js" charset="utf-8"></script>
+  </body>
+</html>
