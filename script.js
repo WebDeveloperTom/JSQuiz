@@ -93,7 +93,6 @@ function displayResults() {
   });
   document.querySelector(".correctResults").innerHTML = wrongQuestionList;
 
-  //Highlight wrong answer and correct answer.
   //display user Score
   //display grade.
   //try again button
