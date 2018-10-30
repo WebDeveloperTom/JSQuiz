@@ -59,11 +59,10 @@ const questions = [
 ];
 
 //rating system, show correct answers that was wrong.
-//check if any questions left.
+//login form/form validation -> name email password
 
 let questionCount = 0;
 let userScore = 0;
-let userChoice;
 let questionsWrong = [];
 document.getElementById("score").innerText = userScore;
 
@@ -73,11 +72,38 @@ function startQuiz() {
   displayQandA(questionCount);
 }
 
+function displayResults() {
+  //display user's name
+  //hide quiz screen
+  document.querySelector("#quiz-container").style.display = "none";
+  //display results
+  document.querySelector("#results").style.display = "block";
+  //display questionsWrong arr.
+  let wrongQuestionList = "";
+  questionsWrong.forEach(function(wrongItem, index) {
+    let { qNumber, userChoice } = wrongItem;
+    let correctAns = questions[qNumber].answer;
+    wrongQuestionList += `<div>
+      <p>${questions[qNumber].question}</p>
+      <p>You chose: ${questions[qNumber].options[userChoice - 1]} </p>
+      <p>The correct answer was ${
+        questions[qNumber].options[correctAns - 1]
+      }</p>
+    </div>`;
+  });
+  document.querySelector(".correctResults").innerHTML = wrongQuestionList;
+
+  //Highlight wrong answer and correct answer.
+  //display user Score
+  //display grade.
+  //try again button
+}
+
 function updateQandA() {
   questionCount++;
   if (questionCount == 10) {
-    alert("Run DisplayResults");
-    //run displayResults
+    // alert("Run DisplayResults");
+    displayResults();
     return;
   }
   displayQandA(questionCount);
@@ -89,7 +115,7 @@ function checkAnswer() {
   if (!userAns) {
     //if the user has not selected an answer.
     //display error message;
-    alert("wrong");
+    alert("please pick an option");
     return;
   }
 
@@ -98,9 +124,9 @@ function checkAnswer() {
       qNumber: questionCount,
       userChoice: userAns.value
     };
-    console.log(wrongQuestion);
+    // console.log(wrongQuestion);
     questionsWrong.push(wrongQuestion);
-    console.log(questionsWrong);
+    // console.log(questionsWrong);
     // alert("Wrong");
     updateQandA();
   } else {

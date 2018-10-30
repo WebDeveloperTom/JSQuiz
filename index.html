@@ -12,13 +12,18 @@
     <div id="quiz-container" style="display:none;">
       <p class="question"></p>
       <form action="" id="answerList"></form>
-      <button type="button" id="submit" name="button" onclick="checkAnswer()">Submit</button>
+      <button type="button" id="submit" name="button" onclick="checkAnswer()">Next</button>
       <div class="userScore">
         <p>Score:
           <span id="score"></span></p>
       </div>
     </div>
-    <div id="results" style="display:none"></div>
+    <div id="results" style="display:none">
+      <p>results screen</p>
+      <div class="correctResults">
+        <!-- <p class="incorrectQuestion">1. Hello World</p> <p class="incorrectChoice">You chose: <span></span></p> <p class="correctChoice">The correct answer was <span></span></p> -->
+      </div>
+    </div>
     <script src="script.js" charset="utf-8"></script>
   </body>
 </html>
