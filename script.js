@@ -100,8 +100,10 @@ function displayResults() {
 
 function updateQandA() {
   questionCount++;
+  if (questionCount == 9) {
+    document.getElementById("submit").innerText = "Submit and get results";
+  }
   if (questionCount == 10) {
-    // alert("Run DisplayResults");
     displayResults();
     return;
   }
@@ -114,7 +116,8 @@ function checkAnswer() {
   if (!userAns) {
     //if the user has not selected an answer.
     //display error message;
-    alert("please pick an option");
+    document.getElementById("response").innerHTML =
+      "<p class='warning'>Please select an option</p>";
     return;
   }
 
@@ -123,15 +126,11 @@ function checkAnswer() {
       qNumber: questionCount,
       userChoice: userAns.value
     };
-    // console.log(wrongQuestion);
     questionsWrong.push(wrongQuestion);
-    // console.log(questionsWrong);
-    // alert("Wrong");
     updateQandA();
   } else {
     userScore++;
     document.getElementById("score").innerText = userScore;
-    // alert("Right");
     updateQandA();
   }
 }
