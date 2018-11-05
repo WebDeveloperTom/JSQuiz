@@ -17,28 +17,42 @@
             <form action="" id="answerList"></form>
             <button type="button" id="submit" name="button" onclick="checkAnswer()">Next</button>
             <div id="response"></div>
-            <div class="userScore">
-              <p>Score:
-                <span id="score"></span></p>
-            </div>
+            <!-- <div class="userScore"> <p>Score: <span id="score"></span></p> </div> -->
           </div>
           <div id="results" style="display:none">
             <p>results screen</p>
-            <div class="scoreScreen"></div>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Check Wrong Answers</button>
-
-            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <!-- score modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scoreModal">
+              See your score!
+            </button>
+            <div class="modal fade" id="scoreModal" tabindex="-1" role="dialog" aria-labelledby="scoreModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <p id="userScore"></p>
+                  <p id="userGrade"></p>
+                  <p id="userHighScore"></p>
+                </div>
+              </div>
+            </div>
+            <!-- score modal END -->
+            <!-- wrong answers modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".answerModal">Check Wrong Answers</button>
+            <div class="modal fade answerModal" tabindex="-1" role="dialog" aria-labelledby="answerModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                  <div class="correctResults">
-                    <!-- <p class="incorrectQuestion">1. Hello World</p> <p class="incorrectChoice">You chose: <span></span></p> <p class="correctChoice">The correct answer was <span></span></p> -->
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="scoreModalLabel">Let's check you answers.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="correctResults"></div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="correctResults">
-              <!-- <p class="incorrectQuestion">1. Hello World</p> <p class="incorrectChoice">You chose: <span></span></p> <p class="correctChoice">The correct answer was <span></span></p> -->
-            </div>
+            <!-- wrong answers modal END -->
           </div>
         </div>
       </div>
