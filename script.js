@@ -63,6 +63,7 @@ const questions = [
 // restart quiz button
 //progress bar?
 //if highscore is beaten, display a congratz message
+//fix for offline mode.
 
 //Keeping track of the current question count
 let questionCount = 0;
@@ -76,7 +77,7 @@ let userHighScore = 0;
 function startQuiz() {
   //hide the start quiz button and display the quiz
   document.querySelector(".quiz-start").style.display = "none";
-  document.querySelector("#quiz-container").style.display = "block";
+  document.querySelector("#quiz-container").style.display = "";
   //fetches current question and displays
   displayQandA(questionCount);
 }
@@ -86,7 +87,7 @@ function displayResults() {
   //hide quiz screen
   document.querySelector("#quiz-container").style.display = "none";
   //display results
-  document.querySelector("#results").style.display = "block";
+  document.querySelector("#results").style.display = "";
   //display questionsWrong arr.
   let wrongQuestionList = "";
   questionsWrong.forEach(function(wrongItem, index) {
@@ -105,10 +106,15 @@ function displayResults() {
       }</span></p>
     </div>`;
   });
+  if (userScore == 10) {
+    document.getElementById("checkAnswerBtn").style.display = "none";
+  }
   //sending the HTML to be displayed
   document.querySelector(".correctResults").innerHTML = wrongQuestionList;
   //display user Score
-  document.getElementById("userScore").innerText = `You scored ${userScore}!`;
+  document.getElementById(
+    "userScore"
+  ).innerText = `You scored ${userScore}/10!`;
   //display grade.
   displayUserGrade(userScore);
   //highscore
@@ -116,14 +122,18 @@ function displayResults() {
   //try again button
 }
 
-//NEED TO FINISH
 function displayUserGrade(x) {
   let grade = "";
   if (x <= 3) {
     grade = "You need to do some study. Please try again";
-  } else if (3 < x <= 6) {
+  } else if (x <= 6) {
     grade = "There's room for improvement here. Keep at it!";
+  } else if (x <= 9) {
+    grade = "Great job! Can you get all ten correct?";
+  } else {
+    grade = "Wow! Perfect score! Excellent Work!";
   }
+  document.getElementById("userGrade").innerText = grade;
 }
 
 function updateQandA() {
