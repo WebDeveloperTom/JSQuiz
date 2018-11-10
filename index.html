@@ -8,11 +8,12 @@
   <body>
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col align-self-center">
+        <div class="col-md-12">
           <div class="quiz-start">
             <button type="button" name="button" onclick="startQuiz()">Start Quiz!</button>
           </div>
           <div id="quiz-container" style="display:none;">
+            <div class="progressBar"></div>
             <p class="question"></p>
             <form action="" id="answerList"></form>
             <button type="button" id="submit" name="button" onclick="checkAnswer()">Next</button>
@@ -36,7 +37,7 @@
             </div>
             <!-- score modal END -->
             <!-- wrong answers modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".answerModal">Check Wrong Answers</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".answerModal" id="checkAnswerBtn">Check Wrong Answers</button>
             <div class="modal fade answerModal" tabindex="-1" role="dialog" aria-labelledby="answerModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -53,6 +54,7 @@
               </div>
             </div>
             <!-- wrong answers modal END -->
+            <button type="button" name="button">Try Again?</button>
           </div>
         </div>
       </div>
