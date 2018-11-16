@@ -57,13 +57,6 @@ const questions = [
     answer: "3"
   }
 ];
-//TODO
-//rating system.
-//login form/form validation -> name email password
-// restart quiz button
-//progress bar?
-//if highscore is beaten, display a congratz message
-//fix for offline mode.
 
 //Keeping track of the current question count
 let questionCount = 0;
@@ -78,14 +71,31 @@ function startQuiz() {
   //hide the start quiz button and display the quiz
   document.querySelector(".quiz-start").style.display = "none";
   document.querySelector("#quiz-container").style.display = "";
+  document.querySelector("#barContainer").style.display = "";
+  //increase progressBar
+  let percent = (questionCount + 1) * 10;
+  document.querySelector(".progressBar").style.width = `${percent}%`;
   //fetches current question and displays
   displayQandA(questionCount);
+}
+function restartQuiz() {
+  //set styles and scores (apart from highscore) back to defaults
+  document.querySelector("#results").style.display = "none";
+  document.querySelector(".quiz-start").style.display = "";
+  document.getElementById("submit").innerText = "Next";
+  //removes the "display modal" classes from button
+  document.getElementById("submit").removeAttribute("data-toggle");
+  document.getElementById("submit").removeAttribute("data-target");
+  userScore = 0;
+  questionCount = 0;
+  questionsWrong = [];
 }
 
 function displayResults() {
   //display user's name
-  //hide quiz screen
+  //hide quiz screen and progress bar
   document.querySelector("#quiz-container").style.display = "none";
+  document.querySelector("#barContainer").style.display = "none";
   //display results
   document.querySelector("#results").style.display = "";
   //display questionsWrong arr.
@@ -96,16 +106,17 @@ function displayResults() {
     //grabbing the correct answer from the orginal question array
     let correctAns = questions[qNumber].answer;
     //creating the HTML to display
-    wrongQuestionList += `<div>
-      <p>Q${qNumber + 1}. ${questions[qNumber].question}</p>
+    wrongQuestionList += `<div class="wrongItem">
+      <p><strong>Q${qNumber + 1}. ${questions[qNumber].question}</strong></p>
       <p>You chose: <span class="wrongAns" style="color:red;">${
         questions[qNumber].options[userChoice - 1]
       }</span></p>
-      <p>The correct answer was <span class="rightAns" style="color:green;">${
+      <p>The correct answer was <span class="rightAns" style="color:green;"><strong>${
         questions[qNumber].options[correctAns - 1]
-      }</span></p>
+      }</strong></span></p>
     </div>`;
   });
+  //if the user scored a 10/10, there's no need to display "CheckAnswers".
   if (userScore == 10) {
     document.getElementById("checkAnswerBtn").style.display = "none";
   }
@@ -119,7 +130,9 @@ function displayResults() {
   displayUserGrade(userScore);
   //highscore
   checkHighscore(userScore);
-  //try again button
+  document.getElementById(
+    "userHighScore"
+  ).innerText = `Your high score is ${userHighScore}`;
 }
 
 function displayUserGrade(x) {
@@ -141,6 +154,9 @@ function updateQandA() {
   document.getElementById("response").innerHTML = "";
   //increase the question count
   questionCount++;
+  //increase progressBar
+  let percent = (questionCount + 1) * 10;
+  document.querySelector(".progressBar").style.width = `${percent}%`;
   //check to see if we're going to be on the final question
   if (questionCount == 9) {
     //update the button
@@ -149,6 +165,11 @@ function updateQandA() {
   //check to see if there are no more questions
   if (questionCount == 10) {
     displayResults();
+    //will display socre modal as soon as final answer is submitted.
+    document.getElementById("submit").setAttribute("data-toggle", "modal");
+    document
+      .getElementById("submit")
+      .setAttribute("data-target", "#scoreModal");
     return;
   }
   //otherwise display the next question
@@ -182,7 +203,6 @@ function checkAnswer() {
   } else {
     //answer is correct, increase the score
     userScore++;
-    // document.getElementById("score").innerText = userScore;
     //update the question
     updateQandA();
   }
@@ -196,13 +216,14 @@ function displayQandA(x) {
   let choices = "";
   //loops over each answer in the array and creates a radio button for each
   questions[x].options.forEach(function(option, index) {
-    choices += `<input type='radio' name='options' value="${index +
-      1}">${option}<br>`;
+    choices += `<div class='answerItem'><label><input type='radio' name='options' value="${index +
+      1}"><span>${option}</span></label></div><br>`;
   });
   document.getElementById("answerList").innerHTML = choices;
 }
 
 function checkHighscore(userScore) {
   //condition ? true : false
+  //does the current user score beat the current high score? If yes, set highscore to be user score, if not, ignore.
   userScore > userHighScore ? (userHighScore = userScore) : null;
 }
