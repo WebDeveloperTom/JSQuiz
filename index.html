@@ -3,65 +3,79 @@
   <head>
     <meta charset="utf-8">
     <title>JavaScript Quiz</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   </head>
   <body>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-12">
+    <div class="container main">
+      <div class="row">
+        <div id="barContainer" style="display:none;">
+          <div class="progressBar"></div>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-md-12 align-self-center">
           <div class="quiz-start">
-            <button type="button" name="button" onclick="startQuiz()">Start Quiz!</button>
+            <button type="button" class="btn btn-info" name="button" onclick="startQuiz()">Start Quiz!</button>
           </div>
+          <!-- container where questions will be displayed -->
           <div id="quiz-container" style="display:none;">
-            <div class="progressBar"></div>
             <p class="question"></p>
             <form action="" id="answerList"></form>
-            <button type="button" id="submit" name="button" onclick="checkAnswer()">Next</button>
+            <button type="button" id="submit" name="button" class="btn btn-info" onclick="checkAnswer()">Next</button>
+            <!-- #response displays any errors -->
             <div id="response"></div>
-            <!-- <div class="userScore"> <p>Score: <span id="score"></span></p> </div> -->
           </div>
+          <!-- end question and answer container -->
+          <!-- results screen -->
           <div id="results" style="display:none">
-            <p>results screen</p>
-            <!-- score modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scoreModal">
-              See your score!
-            </button>
-            <div class="modal fade" id="scoreModal" tabindex="-1" role="dialog" aria-labelledby="scoreModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
+            <div id="buttonList">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scoreModal">
+                See your score!
+              </button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".answerModal" id="checkAnswerBtn">Check Wrong Answers</button>
+              <button type="button" class="btn btn-danger" name="button" onclick="restartQuiz()">Try Again?</button>
+            </div>
+          </div>
+          <!-- score modal -->
+          <div class="modal fade" id="scoreModal" tabindex="-1" role="dialog" aria-labelledby="scoreModalLabel" aria-hidden="true">
+            <!-- modal-dialog-centered -->
+            <div class="modal-dialog " role="document">
+              <div class="modal-content">
+                <div id="userStats">
                   <p id="userScore"></p>
                   <p id="userGrade"></p>
                   <p id="userHighScore"></p>
                 </div>
               </div>
             </div>
-            <!-- score modal END -->
-            <!-- wrong answers modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".answerModal" id="checkAnswerBtn">Check Wrong Answers</button>
-            <div class="modal fade answerModal" tabindex="-1" role="dialog" aria-labelledby="answerModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="scoreModalLabel">Let's check you answers.</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="correctResults"></div>
-                  </div>
+          </div>
+          <!-- score modal END -->
+          <!-- wrong answers modal -->
+          <div class="modal fade answerModal" tabindex="-1" role="dialog" aria-labelledby="answerModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="scoreModalLabel">Let's check you answers.</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="correctResults"></div>
                 </div>
               </div>
             </div>
-            <!-- wrong answers modal END -->
-            <button type="button" name="button">Try Again?</button>
           </div>
+          <!-- wrong answers modal END -->
         </div>
+        <!-- result screen ends -->
       </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="script.js" charset="utf-8"></script>
-  </body>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="script.js" charset="utf-8"></script>
+</body>
 </html>
