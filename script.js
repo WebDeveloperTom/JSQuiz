@@ -1,3 +1,4 @@
+// questions object
 const questions = [
   {
     question: "What does CSS stand for?",
@@ -68,7 +69,7 @@ let questionsWrong = [];
 let userHighScore = 0;
 
 function startQuiz() {
-  //hide the start quiz button and display the quiz
+  //hide the start quiz button and display the quiz and preogress bar.
   document.querySelector(".quiz-start").style.display = "none";
   document.querySelector("#quiz-container").style.display = "";
   document.querySelector("#barContainer").style.display = "";
@@ -78,17 +79,79 @@ function startQuiz() {
   //fetches current question and displays
   displayQandA(questionCount);
 }
-function restartQuiz() {
-  //set styles and scores (apart from highscore) back to defaults
-  document.querySelector("#results").style.display = "none";
-  document.querySelector(".quiz-start").style.display = "";
-  document.getElementById("submit").innerText = "Next";
-  //removes the "display modal" classes from button
-  document.getElementById("submit").removeAttribute("data-toggle");
-  document.getElementById("submit").removeAttribute("data-target");
-  userScore = 0;
-  questionCount = 0;
-  questionsWrong = [];
+
+function displayQandA(x) {
+  //takes in a value and fetches and display the value's question and choices.
+  document.querySelector(".question").innerText = `${x + 1}. ${
+    questions[x].question
+  }`;
+  let choices = "";
+  //loops over each answer in the array and creates a radio button for each
+  questions[x].options.forEach(function(option, index) {
+    choices += `<div class='answerItem'><label><input type='radio' name='options' value="${index +
+      1}"><span>${option}</span></label></div><br>`;
+  });
+  document.getElementById("answerList").innerHTML = choices;
+}
+
+function checkAnswer() {
+  //grab the correct answer from the question array
+  let correctAns = questions[questionCount].answer;
+  //grabbing any checked radio buttons
+  let userAns = document.querySelector('input[name="options"]:checked');
+  //checking to see if there ARE any checked radio buttons
+  if (!userAns) {
+    //if the user has not selected an answer.
+    //display error message;
+    document.getElementById("response").innerHTML =
+      "<p class='warning'>Please select an option</p>";
+    return;
+  }
+  //if the user answer doesnt match the correct answer
+  if (userAns.value !== correctAns) {
+    //get the question number and users selection and create an object
+    const wrongQuestion = {
+      qNumber: questionCount,
+      userChoice: userAns.value
+    };
+    //push the object into an array for use in the result screen
+    questionsWrong.push(wrongQuestion);
+    //update the question
+    updateQandA();
+  } else {
+    //answer is correct, increase the score
+    userScore++;
+    //update the question
+    updateQandA();
+  }
+}
+
+function updateQandA() {
+  //remove any warning responses
+  document.getElementById("response").innerHTML = "";
+  //increase the question count
+  questionCount++;
+  //increase progressBar
+  let percent = (questionCount + 1) * 10;
+  document.querySelector(".progressBar").style.width = `${percent}%`;
+  //check to see if we're going to be on the final question
+  if (questionCount == 9) {
+    //update the button
+    document.getElementById("submit").innerText = "Submit and get results";
+  }
+  //check to see if there are no more questions
+  if (questionCount == 10) {
+    displayResults();
+    //will display socre modal as soon as final answer is submitted.
+    document.getElementById("submit").setAttribute("data-toggle", "modal");
+    document
+      .getElementById("submit")
+      .setAttribute("data-target", "#scoreModal");
+    //returning so that "displayQandA" will not run as there are no more questions.
+    return;
+  }
+  //otherwise display the next question
+  displayQandA(questionCount);
 }
 
 function displayResults() {
@@ -135,13 +198,13 @@ function displayResults() {
   ).innerText = `Your high score is ${userHighScore}`;
 }
 
-function displayUserGrade(x) {
+function displayUserGrade(userScore) {
   let grade = "";
-  if (x <= 3) {
+  if (userScore <= 3) {
     grade = "You need to do some study. Please try again";
-  } else if (x <= 6) {
+  } else if (userScore <= 6) {
     grade = "There's room for improvement here. Keep at it!";
-  } else if (x <= 9) {
+  } else if (userScore <= 9) {
     grade = "Great job! Can you get all ten correct?";
   } else {
     grade = "Wow! Perfect score! Excellent Work!";
@@ -149,77 +212,17 @@ function displayUserGrade(x) {
   document.getElementById("userGrade").innerText = grade;
 }
 
-function updateQandA() {
-  //remove any warning responses
-  document.getElementById("response").innerHTML = "";
-  //increase the question count
-  questionCount++;
-  //increase progressBar
-  let percent = (questionCount + 1) * 10;
-  document.querySelector(".progressBar").style.width = `${percent}%`;
-  //check to see if we're going to be on the final question
-  if (questionCount == 9) {
-    //update the button
-    document.getElementById("submit").innerText = "Submit and get results";
-  }
-  //check to see if there are no more questions
-  if (questionCount == 10) {
-    displayResults();
-    //will display socre modal as soon as final answer is submitted.
-    document.getElementById("submit").setAttribute("data-toggle", "modal");
-    document
-      .getElementById("submit")
-      .setAttribute("data-target", "#scoreModal");
-    return;
-  }
-  //otherwise display the next question
-  displayQandA(questionCount);
-}
-
-function checkAnswer() {
-  //grab the correct answer from the question array
-  let correctAns = questions[questionCount].answer;
-  //grabbing any checked radio buttons
-  let userAns = document.querySelector('input[name="options"]:checked');
-  //checking to see if there ARE any checked radio buttons
-  if (!userAns) {
-    //if the user has not selected an answer.
-    //display error message;
-    document.getElementById("response").innerHTML =
-      "<p class='warning'>Please select an option</p>";
-    return;
-  }
-  //if the user answer doesnt match the correct answer
-  if (userAns.value !== correctAns) {
-    //get the question number and users selection and create an object
-    const wrongQuestion = {
-      qNumber: questionCount,
-      userChoice: userAns.value
-    };
-    //push the object into an array for use in the result screen
-    questionsWrong.push(wrongQuestion);
-    //update the question
-    updateQandA();
-  } else {
-    //answer is correct, increase the score
-    userScore++;
-    //update the question
-    updateQandA();
-  }
-}
-
-function displayQandA(x) {
-  //takes in a value and fetches and display the value's question and choices.
-  document.querySelector(".question").innerText = `${x + 1}. ${
-    questions[x].question
-  }`;
-  let choices = "";
-  //loops over each answer in the array and creates a radio button for each
-  questions[x].options.forEach(function(option, index) {
-    choices += `<div class='answerItem'><label><input type='radio' name='options' value="${index +
-      1}"><span>${option}</span></label></div><br>`;
-  });
-  document.getElementById("answerList").innerHTML = choices;
+function restartQuiz() {
+  //set styles and scores (apart from highscore) back to defaults
+  document.querySelector("#results").style.display = "none";
+  document.querySelector(".quiz-start").style.display = "";
+  document.getElementById("submit").innerText = "Next";
+  //removes the "display modal" classes from button
+  document.getElementById("submit").removeAttribute("data-toggle");
+  document.getElementById("submit").removeAttribute("data-target");
+  userScore = 0;
+  questionCount = 0;
+  questionsWrong = [];
 }
 
 function checkHighscore(userScore) {
