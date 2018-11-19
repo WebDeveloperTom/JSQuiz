@@ -155,7 +155,6 @@ function updateQandA() {
 }
 
 function displayResults() {
-  //display user's name
   //hide quiz screen and progress bar
   document.querySelector("#quiz-container").style.display = "none";
   document.querySelector("#barContainer").style.display = "none";
@@ -199,16 +198,23 @@ function displayResults() {
 }
 
 function displayUserGrade(userScore) {
+  // init the grade message
   let grade = "";
+  // check userScore and see which grade they should get
   if (userScore <= 3) {
+    //if score is less than or equal to 3, grade becomes the below
     grade = "You need to do some study. Please try again";
   } else if (userScore <= 6) {
+    //if score is less than or equal to 6, grade becomes the below
     grade = "There's room for improvement here. Keep at it!";
   } else if (userScore <= 9) {
+    //if score is less than or equal to 9, grade becomes the below
     grade = "Great job! Can you get all ten correct?";
   } else {
+    //otherwise user got a perfect score.
     grade = "Wow! Perfect score! Excellent Work!";
   }
+  //  set the userGrade element to equal the "grade" message
   document.getElementById("userGrade").innerText = grade;
 }
 
